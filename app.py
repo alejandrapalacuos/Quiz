@@ -96,12 +96,6 @@ preguntas = [
     }
 ]
 
-# Inicializar el estado de la sesión
-if "pregunta_actual" not in st.session_state:
-    st.session_state.pregunta_actual = 0
-if "respuestas" not in st.session_state:
-    st.session_state.respuestas = {tipo: 0 for tipo in tipos_coleccionista}
-
 # Función para calcular los porcentajes
 def calcular_porcentajes(respuestas):
     total_respuestas = sum(respuestas.values())
@@ -111,29 +105,25 @@ def calcular_porcentajes(respuestas):
 # Título de la aplicación
 st.title("¿Qué tipo de coleccionista eres?")
 
-# Mostrar la pregunta actual
-pregunta = preguntas[st.session_state.pregunta_actual]
-st.write(f"Pregunta {st.session_state.pregunta_actual + 1}: {pregunta['pregunta']}")
+# Respuestas del usuario
+respuestas = {tipo: 0 for tipo in tipos_coleccionista}
 
-# Mostrar opciones
-respuesta = st.radio("Selecciona una opción:", pregunta["opciones"])
-
-# Acción cuando el usuario presiona el botón "Continuar"
-if st.button("Continuar"):
-    # Guardar la respuesta seleccionada y actualizar el contador de respuestas
+# Mostrar las preguntas
+for pregunta in preguntas:
+    respuesta = st.radio(pregunta["pregunta"], pregunta["opciones"])
     if respuesta == pregunta["opciones"][0]:
-        st.session_state.respuestas["Nostálgico"] += 1
+        respuestas["Nostálgico"] += 1
     elif respuesta == pregunta["opciones"][1]:
-        st.session_state.respuestas["Maximalista"] += 1
+        respuestas["Maximalista"] += 1
     elif respuesta == pregunta["opciones"][2]:
-        st.session_state.respuestas["Inversor"] += 1
+        respuestas["Inversor"] += 1
+
+# Botón para ver resultados
+if st.button("Ver resultados"):
+    porcentajes = calcular_porcentajes(respuestas)
     
-    # Avanzar a la siguiente pregunta
-    if st.session_state.pregunta_actual < len(preguntas) - 1:
-        st.session_state.pregunta_actual += 1
-    else:
-        # Al terminar el quiz, calcular y mostrar los resultados
-        porcentajes = calcular_porcentajes(st.session_state.respuestas)
-        st.write("Tus porcentajes por tipo de coleccionista:")
-        for tipo, porcentaje in porcentajes.items():
-            st.write(f"{tipo}: {porcentaje:.2f}%")
+    # Mostrar resultados
+    st.write("Tus porcentajes por tipo de coleccionista:")
+    
+    for tipo, porcentaje in porcentajes.items():
+        st.write(f"{tipo}: {porcentaje:.2f}%")
