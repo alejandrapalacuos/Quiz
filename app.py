@@ -286,7 +286,7 @@ st.markdown("""
     .main {background-color: #f8f9fa;}
     h1 {color: #2c3e50;}
     .stRadio > div {flex-direction: row; flex-wrap: wrap;}
-    .stRadio label {margin-right: 20px; margin-bottom: 10px; background: #f0f2f6; padding: 10px 15px; border-radius: 10px;}
+    .stRadio label {margin-right: 20px; margin-bottom: 10px; background: #f5728d; padding: 10px 15px; border-radius: 10px;}
     .stRadio label:hover {background: #f5728d;}
     .stButton button {background-color: #4CAF50; color: black; border-radius: 5px; padding: 10px 24px;}
     .stButton button:hover {background-color: #45a049;}
