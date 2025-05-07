@@ -16,7 +16,7 @@ tipos_coleccionista = {
     "Estético": 0
 }
 
-# Preguntas del quiz
+# Definir las 20 preguntas del quiz
 preguntas = [
     {
         "pregunta": "¿Cómo prefieres que sea tu colección?",
@@ -29,11 +29,74 @@ preguntas = [
     {
         "pregunta": "¿Qué tan obsesionado estás con completar tu colección?",
         "opciones": ["No me importa si la colección está completa", "Me esfuerzo por tenerlo todo", "Busco piezas únicas que hablen de mí"]
+    },
+    {
+        "pregunta": "¿Te gustaría tener una colección muy grande?",
+        "opciones": ["No, prefiero una colección pequeña y significativa", "Sí, más siempre es mejor", "No me interesa el tamaño, solo el valor"]
+    },
+    {
+        "pregunta": "¿Cómo te sientes al ver algo de tu pasado?",
+        "opciones": ["Nostálgico, me gusta recordar", "No me interesa mucho, prefiero el presente", "Me gusta ver cómo lo antiguo puede tener valor"]
+    },
+    {
+        "pregunta": "Cuando compras algo, ¿lo haces por impulso o por razón?",
+        "opciones": ["Por impulso, me gusta lo que me emociona", "Por razones prácticas, busco la oportunidad", "Por impulso, pero también tengo una idea de lo que quiero"]
+    },
+    {
+        "pregunta": "¿Qué tan importante es para ti la exclusividad de una pieza?",
+        "opciones": ["Es muy importante, me gusta tener lo que otros no tienen", "No me importa mucho, no busco exclusividad", "Es algo que valoro, pero no es lo más importante"]
+    },
+    {
+        "pregunta": "¿Cuánto espacio le das a tu colección en tu hogar?",
+        "opciones": ["Muy poco, la colecciono en un lugar específico", "Bastante, mi colección ocupa varios rincones", "El espacio no es lo más importante, me interesa lo que cada pieza representa"]
+    },
+    {
+        "pregunta": "¿Qué tan importante es la historia detrás de una pieza que coleccionas?",
+        "opciones": ["Es lo más importante para mí", "No me interesa mucho la historia, solo la pieza", "Me gusta conocer la historia, pero no es crucial"]
+    },
+    {
+        "pregunta": "¿Coleccionas cosas por su valor financiero?",
+        "opciones": ["No, solo por lo que significan para mí", "Sí, siempre estoy pensando en la posible apreciación de valor", "Depende, si tiene valor sentimental y financiero, mejor"]
+    },
+    {
+        "pregunta": "¿Con qué frecuencia buscas añadir nuevas piezas a tu colección?",
+        "opciones": ["Solo cuando encuentro algo realmente especial", "Todo el tiempo, me encanta encontrar cosas nuevas", "De vez en cuando, cuando considero que es el momento adecuado"]
+    },
+    {
+        "pregunta": "¿Cómo te describes en cuanto a la organización de tu colección?",
+        "opciones": ["Muy organizada y cuidada", "Un poco desordenada, pero en su mayoría bien", "Tengo un sistema, pero no siempre es perfecto"]
+    },
+    {
+        "pregunta": "¿Qué tan importante es el estado de conservación de las piezas en tu colección?",
+        "opciones": ["Es lo más importante para mí", "No me importa tanto, mientras se vea bien", "Prefiero que se conserve, pero no soy tan exigente"]
+    },
+    {
+        "pregunta": "¿Te entusiasma compartir tu colección con otros coleccionistas?",
+        "opciones": ["Sí, me gusta mostrarla y compartirla", "No, prefiero mantenerla para mí", "Depende, me gusta compartir con personas que realmente aprecien lo que colecciono"]
+    },
+    {
+        "pregunta": "¿Qué tan importante es la estética de una pieza?",
+        "opciones": ["Es lo más importante, busco belleza", "No es lo más importante, pero sí la valoro", "Me importa, pero no es lo único"]
+    },
+    {
+        "pregunta": "¿Qué haces cuando encuentras una pieza que te gusta?",
+        "opciones": ["La compro inmediatamente, no puedo esperar", "La investigo primero para asegurarme de que es valiosa", "Me la llevo si siento que encaja con mi colección"]
+    },
+    {
+        "pregunta": "¿Qué tan dispuesto estás a pagar más por una pieza única?",
+        "opciones": ["Estoy dispuesto a pagar un precio alto por algo único", "Solo si el precio es razonable", "Prefiero no gastar tanto en una sola pieza"]
+    },
+    {
+        "pregunta": "¿Cuál es tu principal motivación al coleccionar?",
+        "opciones": ["Emoción personal", "Valor histórico o de inversión", "Estética y belleza"]
+    },
+    {
+        "pregunta": "¿Cómo defines tu relación con los objetos de tu colección?",
+        "opciones": ["Son una extensión de mí", "Son una inversión y un legado", "Son una forma de expresar mi gusto por lo bello"]
     }
-    # Añadir más preguntas si lo deseas
 ]
 
-# Función para calcular el porcentaje
+# Función para calcular los porcentajes
 def calcular_porcentajes(respuestas):
     total_respuestas = sum(respuestas.values())
     porcentajes = {k: (v / total_respuestas) * 100 for k, v in respuestas.items()}
