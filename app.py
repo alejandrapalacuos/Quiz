@@ -1,68 +1,66 @@
 import streamlit as st
-import plotly.graph_objects as go
 
-# Define las preguntas y respuestas del quiz
-questions = [
+# Definir los tipos de coleccionista
+tipos_coleccionista = {
+    "Nostálgico": 0,
+    "El que no sabe": 0,
+    "Heredero": 0,
+    "Maximalista": 0,
+    "Minimalista": 0,
+    "Inversor": 0,
+    "Nuevo": 0,
+    "Histórico": 0,
+    "Apasionado": 0,
+    "Obsesivo": 0,
+    "Social": 0,
+    "Estético": 0
+}
+
+# Preguntas del quiz
+preguntas = [
     {
-        "question": "¿Qué tan importante es para ti que los objetos coleccionados tengan un valor emocional?",
-        "options": ["Nada importante", "Poco importante", "Algo importante", "Muy importante"],
-        "scores": {"Nostálgico": 1, "Emocional": 1, "Social": 0, "Estético": 0, "Maximalista": 0, "Minimalista": 0, "Histórico": 0, "Inversor": 0, "Nuevo": 0, "Heredero": 0, "Apasionado": 0, "Obsesivo": 0}
+        "pregunta": "¿Cómo prefieres que sea tu colección?",
+        "opciones": ["Pequeña pero significativa", "Grande y expansiva", "Lo que tenga valor para el futuro"]
     },
     {
-        "question": "¿Prefieres coleccionar piezas únicas o una gran cantidad de objetos similares?",
-        "options": ["Una pieza única", "Varias piezas similares", "Ambas opciones por igual", "No tengo preferencia"],
-        "scores": {"Nostálgico": 0, "Emocional": 0, "Social": 0, "Estético": 1, "Maximalista": 2, "Minimalista": 1, "Histórico": 0, "Inversor": 0, "Nuevo": 0, "Heredero": 0, "Apasionado": 0, "Obsesivo": 0}
+        "pregunta": "¿Qué te motiva más al coleccionar?",
+        "opciones": ["Recuerdos y emociones del pasado", "La historia detrás de las piezas", "La belleza estética de los objetos"]
     },
     {
-        "question": "¿Qué te motiva a coleccionar?",
-        "options": ["El valor sentimental de los objetos", "Su estética y cómo combinan con mi espacio", "El desafío de acumular y completar colecciones", "El potencial de inversión o el valor futuro de los objetos"],
-        "scores": {"Nostálgico": 2, "Emocional": 2, "Social": 1, "Estético": 1, "Maximalista": 1, "Minimalista": 0, "Histórico": 1, "Inversor": 2, "Nuevo": 0, "Heredero": 0, "Apasionado": 1, "Obsesivo": 1}
-    },
-    {
-        "question": "¿Cuánto te importa que tus colecciones sean visualmente armónicas?",
-        "options": ["Nada", "Un poco", "Bastante", "Mucho"],
-        "scores": {"Nostálgico": 0, "Emocional": 0, "Social": 0, "Estético": 2, "Maximalista": 0, "Minimalista": 2, "Histórico": 1, "Inversor": 0, "Nuevo": 0, "Heredero": 0, "Apasionado": 0, "Obsesivo": 0}
-    },
-    {
-        "question": "¿Cuál es tu enfoque principal al coleccionar?",
-        "options": ["Conectar con mi pasado", "Mostrar mis objetos a mis amigos y familiares", "Acumular lo que me guste", "Obtener objetos que puedan tener valor con el tiempo"],
-        "scores": {"Nostálgico": 2, "Emocional": 2, "Social": 2, "Estético": 0, "Maximalista": 0, "Minimalista": 0, "Histórico": 2, "Inversor": 2, "Nuevo": 1, "Heredero": 2, "Apasionado": 1, "Obsesivo": 0}
+        "pregunta": "¿Qué tan obsesionado estás con completar tu colección?",
+        "opciones": ["No me importa si la colección está completa", "Me esfuerzo por tenerlo todo", "Busco piezas únicas que hablen de mí"]
     }
+    # Añadir más preguntas si lo deseas
 ]
 
-# Variables para almacenar las puntuaciones de cada tipo de coleccionista
-scores = { "Nostálgico": 0, "Emocional": 0, "Social": 0, "Estético": 0, "Maximalista": 0, "Minimalista": 0, "Histórico": 0, "Inversor": 0, "Nuevo": 0, "Heredero": 0, "Apasionado": 0, "Obsesivo": 0 }
+# Función para calcular el porcentaje
+def calcular_porcentajes(respuestas):
+    total_respuestas = sum(respuestas.values())
+    porcentajes = {k: (v / total_respuestas) * 100 for k, v in respuestas.items()}
+    return porcentajes
 
-# Título de la app
-st.title("Descubre qué tipo de coleccionista eres")
+# Título de la aplicación
+st.title("¿Qué tipo de coleccionista eres?")
 
-# Loop para mostrar las preguntas y capturar respuestas
-for i, question in enumerate(questions):
-    st.subheader(f"Pregunta {i + 1}: {question['question']}")
-    response = st.radio(f"Selecciona una opción:", question["options"])
+# Respuestas del usuario
+respuestas = {tipo: 0 for tipo in tipos_coleccionista}
 
-    # Asignar puntuaciones basadas en la respuesta seleccionada
-    for option, score in zip(question['options'], [0, 1, 2, 3]):
-        if response == option:
-            for key, value in question["scores"].items():
-                scores[key] += value
+# Mostrar las preguntas
+for pregunta in preguntas:
+    respuesta = st.radio(pregunta["pregunta"], pregunta["opciones"])
+    if respuesta == pregunta["opciones"][0]:
+        respuestas["Nostálgico"] += 1
+    elif respuesta == pregunta["opciones"][1]:
+        respuestas["Maximalista"] += 1
+    elif respuesta == pregunta["opciones"][2]:
+        respuestas["Inversor"] += 1
 
-# Calcular el total de puntos
-total_points = sum(scores.values())
-
-# Calcular el porcentaje para cada tipo
-percentages = {key: (value / total_points) * 100 if total_points > 0 else 0 for key, value in scores.items()}
-
-# Mostrar el resultado solo al final
-st.subheader("Tus resultados:")
-st.write(f"Total de puntos: {total_points}")
-
-# Crear gráfica de dona con los resultados
-labels = list(percentages.keys())
-values = list(percentages.values())
-
-fig = go.Figure(data=[go.Pie(labels=labels, values=values, hole=0.3)])
-fig.update_layout(title="Distribución de tus tipos de coleccionista", template="plotly_dark")
-
-# Mostrar la gráfica
-st.plotly_chart(fig)
+# Botón para ver resultados
+if st.button("Ver resultados"):
+    porcentajes = calcular_porcentajes(respuestas)
+    
+    # Mostrar resultados
+    st.write("Tus porcentajes por tipo de coleccionista:")
+    
+    for tipo, porcentaje in porcentajes.items():
+        st.write(f"{tipo}: {porcentaje:.2f}%")
