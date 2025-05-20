@@ -320,7 +320,7 @@ for i, pregunta in enumerate(preguntas):
 
     # Mostrar opciones como radio buttons
     opcion_seleccionada = st.radio(
-        f"pregunta {i+1}:",
+        f"JJpregunta {i+1}:",
         [op["texto"] for op in pregunta["opciones"]],
         key=f"pregunta_{i}",
         index=None
