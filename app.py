@@ -243,7 +243,7 @@ def calcular_porcentajes(respuestas):
     total_puntos = sum(tipo["puntos"] for tipo in respuestas.values())
     if total_puntos == 0:
         return {k: 0 for k in respuestas.keys()}
-    
+
     porcentajes = {k: (v["puntos"] / total_puntos) * 100 for k, v in respuestas.items()}
     return porcentajes
 
@@ -251,31 +251,31 @@ def calcular_porcentajes(respuestas):
 def crear_grafica(porcentajes):
     # Filtrar tipos con porcentaje mayor a 0
     datos_grafica = {k: v for k, v in porcentajes.items() if v > 0}
-    
+
     if not datos_grafica:
         return None
-    
+
     # Ordenar de mayor a menor
     datos_ordenados = dict(sorted(datos_grafica.items(), key=lambda item: item[1], reverse=True))
-    
+
     # Crear DataFrame para facilitar el plotting
     df = pd.DataFrame({
         'Tipo': datos_ordenados.keys(),
         'Porcentaje': datos_ordenados.values(),
         'Color': [tipos_coleccionista[tipo]["color"] for tipo in datos_ordenados.keys()]
     })
-    
+
     # Crear la figura
     fig, ax = plt.subplots(figsize=(10, 6))
     bars = ax.barh(df['Tipo'], df['Porcentaje'], color=df['Color'])
-    
+
     # Añadir etiquetas
     ax.bar_label(bars, fmt='%.1f%%', padding=3)
     ax.set_xlim(0, 100)
     ax.set_xlabel('Porcentaje')
     ax.set_title('Tu perfil de coleccionista')
     ax.invert_yaxis()  # Mostrar el más alto primero
-    
+
     plt.tight_layout()
     return fig
 
@@ -311,41 +311,43 @@ with st.sidebar:
     st.write("3. Descubre tu perfil de coleccionista")
 
 # Inicializar respuestas si no existen en session state
-if 'respuestas' not in st.session_state:  # Corregido el typo 'c'respuestas'
+if 'respuestas' not in st.session_state:
     st.session_state.respuestas = {tipo: 0 for tipo in tipos_coleccionista.keys()}
 
-# Mostrar preguntas y procesar respuestas
+# Mostrar las preguntas
 for i, pregunta in enumerate(preguntas):
     st.subheader(pregunta["pregunta"])
+
+    # Mostrar opciones como radio buttons
     opcion_seleccionada = st.radio(
-        label=pregunta["pregunta"],
-        options=[opcion["texto"] for opcion in pregunta["opciones"]],
+        f"Selecciona una opción para la pregunta {i+1}:",
+       
+        [op["texto"] for op in pregunta["opciones"]],
         key=f"pregunta_{i}",
-        horizontal=True
+        index=None
     )
-    
+
     # Actualizar puntos según la selección
     if opcion_seleccionada:
         for opcion in pregunta["opciones"]:
-            if opcion["texto"] == opcion_seleccionada:  # Línea donde ocurría el error
+            if opcion["texto"] == opcion_seleccionada:
                 for tipo in opcion["tipos"]:
                     st.session_state.respuestas[tipo] += 1
-
 
 # Botón para ver resultados
 if st.button("📊 Ver resultados", type="primary"):
     if any(st.session_state.respuestas.values()):
         st.balloons()
         porcentajes = calcular_porcentajes({k: {"puntos": v} for k, v in st.session_state.respuestas.items()})
-        
+
         # Mostrar resultados en dos columnas
         col1, col2 = st.columns([1, 2])
-        
+
         with col1:
             st.subheader("🔍 Tu perfil principal:")
             # Mostrar los 3 tipos principales
             principales = sorted(porcentajes.items(), key=lambda x: x[1], reverse=True)[:3]
-            
+
             for tipo, porcentaje in principales:
                 if porcentaje > 0:
                     st.markdown(f"""
@@ -356,7 +358,7 @@ if st.button("📊 Ver resultados", type="primary"):
                         <p>{tipos_coleccionista[tipo]["descripcion"]}</p>
                     </div>
                     """, unsafe_allow_html=True)
-        
+
         with col2:
             st.subheader("📈 Distribución de tu perfil:")
             # Mostrar gráfica
@@ -365,7 +367,7 @@ if st.button("📊 Ver resultados", type="primary"):
                 st.pyplot(fig)
             else:
                 st.warning("No hay suficientes datos para mostrar la gráfica.")
-        
+
         # Mostrar todos los porcentajes en una tabla expandible
         with st.expander("📋 Ver todos los resultados detallados"):
             df_resultados = pd.DataFrame([
@@ -376,7 +378,7 @@ if st.button("📊 Ver resultados", type="primary"):
                 }
                 for tipo, porcentaje in porcentajes.items() if porcentaje > 0
             ]).sort_values("Porcentaje", ascending=False)
-            
+
             st.dataframe(
                 df_resultados, 
                 hide_index=True, 
