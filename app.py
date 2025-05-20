@@ -311,17 +311,26 @@ with st.sidebar:
     st.write("3. Descubre tu perfil de coleccionista")
 
 # Inicializar respuestas si no existen en session state
-if 'respuestas' not in st.session_state:
+if 'respuestas' not in st.session_state:  # Corregido el typo 'c'respuestas'
     st.session_state.respuestas = {tipo: 0 for tipo in tipos_coleccionista.keys()}
 
-
+# Mostrar preguntas y procesar respuestas
+for i, pregunta in enumerate(preguntas):
+    st.subheader(pregunta["pregunta"])
+    opcion_seleccionada = st.radio(
+        label=pregunta["pregunta"],
+        options=[opcion["texto"] for opcion in pregunta["opciones"]],
+        key=f"pregunta_{i}",
+        horizontal=True
+    )
     
     # Actualizar puntos según la selección
     if opcion_seleccionada:
         for opcion in pregunta["opciones"]:
-            if opcion["texto"] == opcion_seleccionada:
+            if opcion["texto"] == opcion_seleccionada:  # Línea donde ocurría el error
                 for tipo in opcion["tipos"]:
                     st.session_state.respuestas[tipo] += 1
+
 
 # Botón para ver resultados
 if st.button("📊 Ver resultados", type="primary"):
