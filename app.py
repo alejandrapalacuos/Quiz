@@ -317,7 +317,7 @@ if 'respuestas' not in st.session_state:
 # Mostrar las preguntas
 for i, pregunta in enumerate(preguntas):
     st.subheader(pregunta["pregunta"])
-    
+    f"Selecciona una opción para la pregunta {i+1}:",
     # Mostrar opciones como radio buttons
     opcion_seleccionada = st.radio(
        
