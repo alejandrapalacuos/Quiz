@@ -314,17 +314,7 @@ with st.sidebar:
 if 'respuestas' not in st.session_state:
     st.session_state.respuestas = {tipo: 0 for tipo in tipos_coleccionista.keys()}
 
-# Mostrar las preguntas
-for i, pregunta in enumerate(preguntas):
-    st.subheader(pregunta["pregunta"])
-    f"Selecciona una opción para la pregunta {i+1}:",
-    # Mostrar opciones como radio buttons
-    opcion_seleccionada = st.radio(
-       
-        [op["texto"] for op in pregunta["opciones"]],
-        key=f"pregunta_{i}",
-        index=None
-    )
+
     
     # Actualizar puntos según la selección
     if opcion_seleccionada:
